@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "研一课程/研究生英语进阶.md",
+                "file": "研一课程/矩阵理论/0.课程要求.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "研一课程/研究生英语进阶.md",
+                "file": "研一课程/矩阵理论/0.课程要求.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "研一课程/研究生英语进阶.md",
+                "file": "研一课程/矩阵理论/0.课程要求.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "研一课程/研究生英语进阶.md"
+                "file": "研一课程/矩阵理论/0.课程要求.md"
               }
             }
           },
@@ -155,12 +155,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a052e68fb98d24e2",
+  "active": "1dff8f56008e5992",
   "lastOpenFiles": [
+    "研一课程/研究生英语进阶.md",
+    "研一课程/矩阵理论/0.课程要求.md",
     "研一课程/最优化理论.md",
     "研一课程/最优化理论",
     "研一课程/未命名.md",
-    "研一课程/研究生英语进阶.md",
     "研一课程/研究生论文写作指导.md",
     "研一课程/新中特.md",
     "研一课程/先进计算机网络技术.md",
