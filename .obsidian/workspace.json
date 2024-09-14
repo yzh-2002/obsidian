@@ -18,8 +18,20 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "673821cfa7982a37",
+            "type": "leaf",
+            "state": {
+              "type": "diff-view",
+              "state": {
+                "file": "杂七杂八/流媒体.md",
+                "staged": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -85,7 +97,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "leetcode/记录一些算法.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +113,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "leetcode/记录一些算法.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +134,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "leetcode/记录一些算法.md"
-              }
+              "state": {}
             }
           },
           {
@@ -155,11 +163,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "351b4492fa7ece9d",
+  "active": "673821cfa7982a37",
   "lastOpenFiles": [
+    "杂七杂八/数字人项目.md",
+    "conflict-files-obsidian-git.md",
+    "杂七杂八/流媒体.md",
+    "leetcode/记录一些算法.md",
+    "杂七杂八",
     "leetcode/2024-09.md",
     "leetcode/各语言可用工具函数.md",
-    "leetcode/记录一些算法.md",
     "c++.md",
     "研一课程/矩阵理论/1.线性代数基础.md",
     "研一课程/最优化理论/0.课程要求.md",
@@ -184,8 +196,6 @@
     "实验室/GeoPandas库调研.md",
     "Welcome.md",
     "实习",
-    "实验室/本科毕设整理.md",
-    "实验室/台湾网格划分.md",
     "97dd68df8dacb7baf0bf808b26b4cdb1.png",
     "研一课程/研究生论文写作指导",
     "研一课程",
