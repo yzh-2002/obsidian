@@ -4,34 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "2aeeaa10da857073",
+        "id": "7e5da1c2d71a2b89",
         "type": "tabs",
         "children": [
           {
-            "id": "1dff8f56008e5992",
+            "id": "a03b5afb6927683a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "leetcode/记录一些算法.md",
+                "file": "leetcode/2024-09.md",
                 "mode": "source",
                 "source": false
               }
             }
-          },
-          {
-            "id": "673821cfa7982a37",
-            "type": "leaf",
-            "state": {
-              "type": "diff-view",
-              "state": {
-                "file": "杂七杂八/流媒体.md",
-                "staged": false
-              }
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -97,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "leetcode/2024-09.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "leetcode/2024-09.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "leetcode/2024-09.md"
+              }
             }
           },
           {
@@ -163,44 +155,44 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "673821cfa7982a37",
+  "active": "a052e68fb98d24e2",
   "lastOpenFiles": [
-    "杂七杂八/数字人项目.md",
-    "conflict-files-obsidian-git.md",
-    "杂七杂八/流媒体.md",
-    "leetcode/记录一些算法.md",
-    "杂七杂八",
-    "leetcode/2024-09.md",
     "leetcode/各语言可用工具函数.md",
-    "c++.md",
-    "研一课程/矩阵理论/1.线性代数基础.md",
+    "leetcode/2024-09.md",
+    "创业项目/0.近期待办.md",
+    "研一课程/最优化理论/1.最优化问题与数学基础.md",
+    "创业项目",
     "研一课程/最优化理论/0.课程要求.md",
+    "leetcode/记录一些算法.md",
+    "实验室/近期安排.md",
+    "实验室/本科毕设整理.md",
     "研一课程/随机过程及应用/1.概率论概要.md",
-    "研一课程/随机过程及应用/0.课程要求.md",
+    "研一课程/矩阵理论/1.线性代数基础.md",
     "研一课程/矩阵理论/0.课程要求.md",
+    "c++.md",
+    "实习/日期安排.md",
+    "杂七杂八/图灵机.md",
+    "创业项目/数字人项目.md",
+    "conflict-files-obsidian-git.md",
+    "创业项目/流媒体.md",
+    "杂七杂八",
+    "研一课程/随机过程及应用/0.课程要求.md",
     "研一课程/研究生论文写作指导.md",
     "研一课程/先进计算机网络技术.md",
     "研一课程/通信网络基础.md",
     "研一课程/算法分析导论与实践.md",
     "研一课程/互联网安全.md",
-    "实验室/近期安排.md",
     "研一课程/研究生英语进阶.md",
     "研一课程/最优化理论.md",
     "研一课程/最优化理论",
     "研一课程/未命名.md",
-    "研一课程/新中特.md",
-    "研一课程/矩阵理论.md",
     "研一课程/矩阵理论",
-    "实习/日期安排.md",
     "研一课程/随机过程及应用",
-    "实验室/GeoPandas库调研.md",
-    "Welcome.md",
     "实习",
     "97dd68df8dacb7baf0bf808b26b4cdb1.png",
     "研一课程/研究生论文写作指导",
     "研一课程",
     "实验室",
-    "研一课程/矩阵理论",
-    "leetcode"
+    "研一课程/矩阵理论"
   ]
 }
