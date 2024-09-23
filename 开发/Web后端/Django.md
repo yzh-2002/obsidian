@@ -1,8 +1,9 @@
 ## 从0到1
 
+### 基本概念
 python的web框架：
-1. Flask
-2. Django
+1. Flask：轻量级
+2. Django：重量级，继承了Web开发所需的基本所有依赖
 	1. 安装之后会提供`django-admin`，类似于前端脚手架，帮忙创建项目文件结构
 	2. `django-admin startproject xxx`创建项目
 
@@ -48,3 +49,11 @@ python的web框架：
 3. template：负责将数据渲染为用户可视界面
 
 较之传统的MVC架构来说，MVT中的View相当于MVC中的Controller，Template则相当于MVC中的View。
+
+### 数据库配置
+
+`python manage.py migrate`：该命令会查看`INSTALLED_APPS`配置，然后根据`settings.py`中的数据库配置和项目各个应用下的数据库迁移文件（也即`migrations`文件夹下的内容）创建任何必要的数据库表。
+
+上述一般是本地部署别人已开发的项目时，一键创建适配该项目的数据库。自己从0开始开发项目时，需要自己在`app/models.py`中定义数据结构，然后执行命令`python manage.py makemigrations app`
+
+该命令会检测你对`modes.py`的修改，并且把修改的部分存储为一次迁移（一种记录，不会改变项目依赖数据库内容），也即`migrate`，之后我们可以执行上面提到的`python manage.py migrate`命令（自动执行数据库迁移并同步管理数据库结构）
