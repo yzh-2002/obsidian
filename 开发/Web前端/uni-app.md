@@ -1,8 +1,14 @@
 > 用于构建跨平台的移动端应用和小程序
 
-1. 创建项目：`npx degit dcloudio/uni-preset-vue#vite-ts <name>
-2. 
- `
+1. 创建项目：`npx degit dcloudio/uni-preset-vue#vite-ts <name>`
+
+
+## applet vs Web
+
+
+
+
+
 ## wx applet
 
 1. 微信服务市场
