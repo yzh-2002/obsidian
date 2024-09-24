@@ -57,3 +57,6 @@ python的web框架：
 上述一般是本地部署别人已开发的项目时，一键创建适配该项目的数据库。自己从0开始开发项目时，需要自己在`app/models.py`中定义数据结构，然后执行命令`python manage.py makemigrations app`
 
 该命令会检测你对`modes.py`的修改，并且把修改的部分存储为一次迁移（一种记录，不会改变项目依赖数据库内容），也即`migrate`，之后我们可以执行上面提到的`python manage.py migrate`命令（自动执行数据库迁移并同步管理数据库结构）
+
+**Django自带的admin管理界面，本地在DEBUG为False时，无法加载静态资源。**
+暂时没找到原因
