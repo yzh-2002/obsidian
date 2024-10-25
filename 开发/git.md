@@ -56,3 +56,11 @@ git merge --no-ff feature/xxx
 个人主机可以使用`ssh-keygen`生成一对公钥`id_rsa.pub`和密钥`id_rsa`
 
 `github`上配置`ssh`，就是免密登录的一种应用。
+
+## 其他命令
+
+1. `git commit --amend`：修改最近一次的提交内容，而不创建新的提交
+	1. 如果之前你拉取了某指定分支，但有人在该分支上使用上述命令，便会导致你执行`git pull`时本地与远端产生`diverge`（分叉），解决办法：
+		1. 本地强制将该分支重置到上一个`commit`：`git reset --hard HEAD~1`
+		2. 之后再`git pull`即可
+2. `git reset`：将当前分支的`HEAD`指针移动到一个指定的提交上，并根据需要修改工作区和暂存区的状态，主要用于：撤销提交....
