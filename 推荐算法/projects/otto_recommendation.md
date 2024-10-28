@@ -37,6 +37,13 @@
 	1. 然后，将所有`session`的`aid pair`合并，得到如下结构：`aid1:{aid2:weight,...}`
 	2. 针对每个`aid`做截断，取前`TopK`个
 2. 上述`aid pair`的权重分为两种模式：
-	1. `ops mode`：根据操作模式确定权重（用于`carts/orders`召回）
+	1. `ops mode`：根据操作模式确定权重（用于`carts/orders`召回，`carts`和`orders`共享找回结果）
 	2. `time mode`：根据aid 交互间隔时间确定权重（用于`clicks`召回）
+3. 如何通过上述结果为测试集用户预测其未来可能`clicks/carts/orders`呢？
+	1. 首先获取测试集用户历史交互`aid list`，去重
+	2. **`aid list`长度大于20，则对其中元素计算权重并返回前20个**
+		1. 权重：`sequence weight`+`co_visitation weight`
+	3. `aid list`长度小于20，则遍历`aid list`元素，从`co_visitation`的`topk`中获取相似`aid`，从中返回`20-len(set(aid list))`个，再拼接上`set(aid list)`返回
+
+## Rank
 
