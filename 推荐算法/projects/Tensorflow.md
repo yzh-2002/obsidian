@@ -29,3 +29,8 @@ cuda组件主要涉及两部分：
 	1. `tf-1.x`版本不支持`RTX 30系`显卡进行GPU训练，可以使用NVIDIA维护的`nvidia-tf1.15`，但仅支持Linux
 	2. 切到`tf-2.1`以上版本便可以解决问题
 2. `tf-2`需要兼容旧版本代码时可执行`tf.compat.v1.disable_eager_execution()`，实测很有用
+
+## 模型搭建
+
+
+
