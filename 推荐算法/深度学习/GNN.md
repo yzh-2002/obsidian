@@ -24,11 +24,15 @@
 
 GNN是对图的各项属性（`node,edges,global-context`）进行一个可优化的变换（该变换可以保持图的对称信息）。其输入是一个`graph`，输出也是一个`graph`，在该过程中，图的各项属性都会变换，但是连接性不发生改变。
 
-### Simplest GNN
+### MP-GNN
+> Message Passing GNN，基于消息传递的图神经网络
 
 1. 对于`graph`的`node,edges,global-context`对应的向量分别构造一个`MLP`对其进行变换。
 	1. 很简单，弊端也很明显：在对图的各项信息进行`MLP`变换时并没有使用到图的结构信息（简单来说就是各个特征没有进行充分的交叉）。
 2. 进一步：以`node`为例，更新时，将其与相邻`node`的向量做一次`pooling`，在丢入`MLP`中
 	1. 这种处理类似于`Convolution`，不同的是此处对相邻`node`做`pooling`权重相等，卷积时每个像素权重对应于`kernel`里的元素
 	2. 通过多层卷积，可以使得元素与更多元素发生交叉（也即`receptive Field`变大），类似，此处通过多层`MLP`，也可以使得`node`与更多的`node`进行交叉
-3. 
+3. 进一步：`node`不仅可以与相邻`node`进行`pooling`，也可以与相邻边（维度不一样的话先经过一次投影即可）进行一次`pooling`
+	1. `node`与相邻`edges`汇聚后的向量再重新汇聚到`edges`上，与`edges`与相邻`node`汇聚后的向量再重新汇聚到`node`上是有区别的（谁更好不好说）
+	2. `global-context`的意义：一些图可能边比较稀疏，导致某一个点想利用全局信息需要跨越比较深的网络，通过`global-context`则可以一开始就与全局信息进行交叉
+
