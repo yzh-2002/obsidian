@@ -57,6 +57,26 @@ git merge --no-ff feature/xxx
 
 `github`上配置`ssh`，就是免密登录的一种应用。
 
+
+```json
+Host ssh.github.com
+  User git
+  Port 443
+  Hostname ssh.github.com
+  // 私钥
+  IdentityFile "C:\Users\yzhal\.ssh\id_ed25519"
+  TCPKeepAlive yes
+
+Host 121.48.163.69
+  Hostname 121.48.163.69
+  User git
+  Port 47508
+  IdentityFile "C:\Users\yzhal\.ssh\id_rsa_lab"
+```
+
+
+
+
 ## 其他命令
 
 1. `git commit --amend`：修改最近一次的提交内容，而不创建新的提交
