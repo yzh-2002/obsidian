@@ -1,6 +1,9 @@
 
 [neurocomputing](https://www.sciencedirect.com/journal/neurocomputing/publish/guide-for-authors) 期刊，elsevier通用模版
 
+中科院二区TOP期刊，CCF-C
+
+
 写作格式：
 1. 单列格式（投稿单列，发表双列）
 2. Page
@@ -62,3 +65,42 @@
 f(x) = (x+a)(x+b)
 \end{equation}
 ```
+
+## 模型结构
+
+1. 特征提取
+	1. 静态特征（节点特征）：IP地址（数值），子网掩码（one-hot），ASN，ISP... 
+	2. 动态特征（边特征）：RTT的最小值和方差
+		1. 定义一个函数$\mathcal{R}_{v_a,v_b}(x) = \sum_{j=0}^{M} a_j^{v_a,v_b} x^j + \epsilon_{v_a,v_b}(x)$来拟合两个节点之间RTT与跳数x的关系，M为最高多项式次数，该函数的参数的获取可以看作回归任务的解
+		2. 将求得的函数参数$a_m$进行标准化得到$z_m$，<font color="#ff0000">每一条边均有一组独特的参数</font>
+		3. 每条边的动态特征：RTT最小值，RTT均值，标准化后的多项式参数
+2. GBDT：
+	1. 初始特征经GBDT输出得到新的节点特征
+	2. 新的节点特征作为T-GNN的输入
+3. T-GNN：
+	1. GNN：
+		1. $\mathcal{S}_v' = \frac{1}{M_v} \left(\sum_{i: v_i = v} \mathcal{S}_{\text{head}, i}' + \sum_{j: v_j = v} \mathcal{S}_{\text{tail}, j}' \right)$，$M_v$表示点v相关链路总数，$\mathcal{S}_{\text{head}, i}'$是GBDT输出的特征
+		2. $\mathbf{H}_{v}^{t} = \text{ReLU} \left( \text{BN} \left( \text{AGG} \left( \mathcal{S}_v', \sum_{u \in \mathcal{N}(v)} W_1 * \mathbf{H}_{u}^{t-1}, \sum_{e \in \mathrm{E}(v)} W_k * \mathrm{E}_{ve}' \right) + b \right) \right)$，$\mathbf{H}_{v}^{t}$表示经GNN更新后的当前节点表示，综合考虑了原先节点特征$\mathcal{S}_v'$，邻居节点特征，边特征
+			1. AGG表示聚合函数，例如：mean，sum，max，attention....
+	2. 时间T是怎么引入的？
+4. TFN
+	1. 链路特征向量表示：$C_{v_av_b}^t = \mathbf{H}_{v_a}^{(L,t)} \oplus \mathbf{H}_{v_b}^{(L,t)} \oplus \mathbf{E}_{v_av_b}^t$
+	2. $\hat{y}_{v_av_b} = \text{TFN}\left(\sum_{t=T-T_w}^{T} \gamma^t C_{v_av_b}^t \right)$，考虑一定时间窗口内的所有链路特征之和来预测链路类型
+	3. 交叉熵损失
+
+## 实验结果
+
+1. Feature Importance
+2. Impact of Polynomial Coefficients on TGBN Performance
+	1.  the number of polynomial coefficients：5，10，15，20
+	2. original dataset：sichuan，shanghai
+	3. new dataset：guangzhou
+
+实验结果图绘制
+
+## 论文作者
+
+莫李思 杨子涵 朱文伟 严彦东 施科任 戴瑞婷（通信/讯）
+
+通信作者：负责与期刊编辑和评审人沟通的作者
+
