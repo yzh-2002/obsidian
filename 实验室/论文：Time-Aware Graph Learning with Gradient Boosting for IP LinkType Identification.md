@@ -1,5 +1,5 @@
 
-[neurocomputing](https://www.sciencedirect.com/journal/neurocomputing/publish/guide-for-authors) 期刊，elsevier通用模版
+[neurocomputing](https://www.sciencedirect.com/journal/neurocomputing/publish/guide-for-authors) 期刊，elsevier通用模版，全年随时可投递，无截稿日期
 
 中科院二区TOP期刊，CCF-C
 
