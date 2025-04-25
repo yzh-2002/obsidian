@@ -96,11 +96,26 @@ f(x) = (x+a)(x+b)
 	2. original dataset：sichuan，shanghai
 	3. new dataset：guangzhou
 
-实验结果图绘制
+实验结果图绘制：
+1. 配色，可网上搜索科研配色
+2. 字体：全部采用Times
 
 ## 论文作者
 
 莫李思 杨子涵 朱文伟 严彦东 施科任 戴瑞婷（通信/讯）
 
 通信作者：负责与期刊编辑和评审人沟通的作者
+
+
+```latex
+% [1,3] 对应\affiliation编号
+\author[1,3]{Lisi Mo}[type=editor,style=chinese]
+\comark[1] % 标记为通讯作者
+\fnmark[1] % 添加脚注标记
+\ead{} % 联系方式
+\ead[url]{}
+\credit{} % 作者贡献
+\affiliation[1]{} %机构信息
+```
+
 
