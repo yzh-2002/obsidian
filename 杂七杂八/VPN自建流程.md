@@ -1,5 +1,5 @@
 > 详细操作可见：https://zelikk.blogspot.com/2022/01/cloudcone-vps-v2ray-1g-2t-20g-512mb-999.html
-TODO：将上述链接自己整理成文档
+   TODO：将上述链接自己整理成文档
 
 1. 购买一个海外ip的vps
 	1. ip选择？美国？香港？
