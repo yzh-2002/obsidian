@@ -5,9 +5,22 @@
 > 3. ...
 
 ### Attention
+> $Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d}})V$
+
+1. attention层的输入维度：`[batch_size, token_num, d_model]`
+	1. 一般设计上会保持embedding向量与隐向量维度一致
+2. 经经线性层生成Q，K，V向量，维度：`[batch_size, token_num, d_model/h]`
+	1. h为MHA中head的数量
+3. 计算Q和K的点积，得到注意力分数权重，维度：`[batch_size, token_num, token_num]`
+	1. `T[*][i][j]`：表示第i个token与第j个token的相似度
+4. 掩码，为了保证自回归属性，需要使得所有`T[*][i][j]=0 when j>i`设置为`1e-9`，也即下三角矩阵，这样经softmax之后对应的注意力分数均为0
+5. softmax
+6. 加权求和，输出维度：`[batch_size, token_num, d_model/h]`
+7. 多个head的输出concat一起
+
 
 KV cache原理：
-1. Transformer的Decoder中，每生成一个新的token，都需要重新计算所有历史 token 的注意力权重。若不缓存 K 和 V，每次生成新 token 时需重新计算整个序列的 K 和 V，导致计算量随序列长度呈二次增长。
+1. Transformer的Decoder中，每生成一个新的token，都需要重新计算所有历史 token 的注意力权重。若不缓存 K 和 V，每次生成新 token 时需重新计算整个序列的 K 和 V。
 2. KV cache则是，对输入序列的所有 token 计算对应的 K 和 V，并存入缓存，后续生成每个新 token 时，仅需计算当前 token 的 Q，而 K 和 V 直接从缓存中读取。
 3. 空间换时间，节省了token embedding经线性层输出K，V的时间，但增加了内存消耗。
 
@@ -37,15 +50,58 @@ KV cache原理：
 1. 核心思想是寻找一个低秩矩阵（秩远小于原始矩阵维度）来压缩或表示高维数据。
 2. 例如：高维数据X纬度为$d \times k$，其低秩投影可分解为两个小矩阵A（$d\times r$），B（$r\times k$），有¥$X=AB$，且$r << k$，从而将参数量从$d\times k$降低至$r\times(d+k)$
 
-MHA中，记token的
+![image.png](https://raw.githubusercontent.com/yzh-2002/img-hosting/main/cs/202505111505561.png)
+
+---
+1. 引入低秩压缩矩阵$W^{DKV}$，缓存压缩过的K，V向量（减小了缓存大小）
+2. 推理时，再通过解压矩阵还原K，V向量计算注意力分数（~~引入了额外计~~算）
+	1. $attention=softmax(\frac{QK^T}{\sqrt{d}})V=softmax(\frac{XW^{Q}(C^{KV}W^{UK})^T}{\sqrt{d}})V=softmax(\frac{XW^{Q}W^{UK^T}C^{KV^T}}{\sqrt{d}})V$
+	2. 推理时（参数固定），可以提前计算出$W^{QUK}=W^QW^{UK^T}$，解决了额外计算的问题
+	3. 如何兼容RoPE？考虑RoPE的attention实质上为：$softmax(\frac{XW^{Q}R_iR_j^TW^{UK^T}C^{KV^T}}{\sqrt{d}})V$
+		1. 由于引入了$R_iR_j^T$，导致无法提前计算，还是有额外计算的问题
+![image.png](https://raw.githubusercontent.com/yzh-2002/img-hosting/main/cs/202505112240696.png)
+
+---
+解决方案：给Q和K向量额外增加维度来表示位置信息，有点ALiBi的意思
+### Position encoding
+>[参考文献](https://zhuanlan.zhihu.com/p/454482273)
+
+理想的position encoding特点：
+1. 表示token在序列中的绝对位置
+2. 序列长度相同情况下，不同序列中token的相对位置保持一致
+3. 便于扩展，能兼容模型训练中未出现的序列长度
+	1. 例如：使用整数0，1，... n来表示token位置就不合适，泛化性太差
+
+---
+1. 二进制向量表示
+	1. 由于`d_model`足够大，故$2^{d\_model}-1$基本可以对任意序列长度进行编码
+	2. 例如：序列中第14个表示为：`[0 1 1 1 0]`（假设`d_model=5`）
+	3. 问题：位置向量的编码处在离散空间中，变化不连续
+2. 周期函数`sin`表示
+	1. 借鉴二进制<font color="#ff0000">低位变化频率快，高位变化频率慢</font>的思想，利用周期函数sin替代01
+	2. 第t个token可表示为：$[sin(w_0t),sin(w_1t),...sin(w_{d\_model-1}t)],w_i=\frac{1}{10000^{i/d\_model-1}}$
+		1. 频率越低，周期越长
+3. RoPE（Rotary Position Embedding）
+	1. 不同位置向量是可以通过线性变化转换的，这样就使得位置编码不仅能够表示绝对位置，还可以表示相对位置
+	2. 我们可以利用旋转矩阵来实现，同时在表示位置时，扩展上面sin表示方法，每个分位上两两一组，例如：$[sin(w_0t),cos(w_0t),\space \space \space \space \space sin(w_1t),cos(w_1t),...sin(w_{d\_model-1}t),cos(...t)],w_i=\frac{1}{10000^{i/d\_model-1}}$
+![image.png](https://raw.githubusercontent.com/yzh-2002/img-hosting/main/cs/202505112231844.png)
+旋转矩阵：$R(\theta)=\begin{bmatrix} cos(\theta) & sin(\theta)  \\ -sin(\theta)  & cos(\theta)  \end{bmatrix}$，含义：向量逆时针旋转$\theta$度
+旋转矩阵的性质：
+1. $R(\theta_1 \theta_2)=R(\theta_1 + \theta_2)$
+2. $R(\theta)^T=R(-\theta)$
+
+位置编码的使用：
+1. 原始transformer：在token的embedding向量处引入
+2. RoPE：先经线性层得到Q，K，V，<font color="#ff0000">仅对Q和K</font>进行旋转变换引入位置信息
+3. ALiBi（Attention with Linear Biases）：在$QK^T$注意力分数矩阵上添加与位置相关的bias
+
+### MOE
+> 传统的大模型较之MOE可以称之为Dense大模型
+> 区别在于：将transformer块中的FFN结构替换为MOE结构
+> 好处：
 
 
-
-
-### Position 
-
-
-### Moe
+![image.png](https://raw.githubusercontent.com/yzh-2002/img-hosting/main/cs/202505112253682.png)
 
 
 
