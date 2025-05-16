@@ -89,3 +89,96 @@ config = {
         "chat_template": "{% if messages[0]['role'] == 'system' %}{% set system_message = messages[0]['content'] %}{{ '<|im_start|>system\\n' + system_message + '<|im_end|>\\n' }}{% else %}{{ '<|im_start|>system\\nYou are a helpful assistant<|im_end|>\\n' }}{% endif %}{% for message in messages %}{% set content = message['content'] %}{% if message['role'] == 'user' %}{{ '<|im_start|>user\\n' + content + '<|im_end|>\\n<|im_start|>assistant\\n' }}{% elif message['role'] == 'assistant' %}{{ content + '<|im_end|>' + '\\n' }}{% endif %}{% endfor %}"
     }
 ```
+
+## PretrainedConfig
+`PretrainedConfig` 是 Hugging Face Transformers 库中的一个核心类，用于存储和管理预训练模型（如 BERT、GPT 等）的配置信息。它定义了模型的结构参数（如层数、注意力头数、隐藏层维度等），并提供了从预训练模型加载配置或自定义配置的方法。
+
+`PretrainedConfig`是下面代码中`AutoConfig，BertConfig`的基类，定义了所有配置的通用方法
+
+```python
+from transformers import AutoConfig
+# 从 Hugging Face Hub 加载预训练模型的配置（例如 bert-base-uncased）
+config = AutoConfig.from_pretrained("bert-base-uncased")
+print(config.hidden_size)  # 输出 768（BERT-base 的隐藏层维度）
+print(config.num_attention_heads)  # 输出 12（BERT-base 的注意力头数）
+
+
+from transformers import BertConfig, BertModel
+# 创建自定义配置
+custom_config = BertConfig(
+    vocab_size=30522,
+    hidden_size=1024,  # 修改隐藏层维度
+    num_hidden_layers=12,
+    num_attention_heads=16,
+    intermediate_size=4096,
+)
+# 用自定义配置初始化模型，此时模型权重是随机初始化的（非预训练权重）
+custom_model = BertModel(custom_config)
+
+
+class MyModelConfig(PretrainedConfig):
+    model_type = "my_model"  # 必须定义，用于自动识别模型类型
+    def __init__(
+        self,
+        vocab_size=30522,
+        hidden_size=768,
+        num_layers=12,
+        custom_param=1024,  # 自定义参数
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.vocab_size = vocab_size
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.custom_param = custom_param  # 新参数
+class MyCustomModel(PreTrainedModel):
+    config_class = MyModelConfig  # 绑定配置类
+    def __init__(self, config):
+        super().__init__(config)
+        self.embeddings = nn.Embedding(config.vocab_size, config.hidden_size)
+        self.layers = nn.ModuleList([
+            nn.Linear(config.hidden_size, config.hidden_size)
+            for _ in range(config.num_layers)
+        ])
+        self.custom_layer = nn.Linear(config.hidden_size, config.custom_param)
+    def forward(self, input_ids):
+        x = self.embeddings(input_ids)
+        for layer in self.layers:
+            x = layer(x)
+        x = self.custom_layer(x)
+        return x
+config = MyModelConfig(
+    vocab_size=30522,
+    hidden_size=1024,
+    num_layers=6,
+    custom_param=512  # 自定义参数
+)
+model = MyCustomModel(config)
+```
+
+常见参数：
+1. 基础参数：
+	1. `dropout`
+	2. `bos/eos_token_id`
+	3. `hidden_size`：token的emb向量纬度（大模型中所有隐含层的输出纬度均一致）
+	4. `hidden_act`
+	5. `num_hidden_layers`：`transformer`块的数量
+	6. `vocab_size`
+	7. `max_position_embeddings`：定义了模型能够处理的最大序列长度
+	8. ``
+2. 注意力参数
+	1. `num_attention_heads`
+	2. `num_key_value_heads`：KV注意力头的数量（GQA / MQA）
+		1. MHA中Q，K，V注意力头的数量相等，均为`num_attention_heads`
+		2. MQA中，Q的数量为`num_attention_heads`，K，V的数量为1
+	3. `flash_attn`：是否使用Flash Attention算法（2022年提出）[原理](https://zhuanlan.zhihu.com/p/668888063)
+	4. `rope_theta`：RoPE（旋转位置编码）的参数，控制RoPE中的基础旋转频率
+3. MoE参数：
+	1. `use_moe`
+	2. `num_experts_per_tok`：每个token选择的专家数量
+	3. `n_routed_experts`：可路由的专家总数
+	4. `n_shared_experts`
+	5. `scoring_func`：专家选择的评分函数，默认为`softmax`
+	6. `aux_loss_alpha`：辅助损失的权重参数
+	7. `seq_aux`：是否在序列级别计算辅助损失
+	8. `norm_topk_prob`：是否对top-k概率进行归一化

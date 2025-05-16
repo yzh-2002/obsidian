@@ -64,7 +64,9 @@ KV cache原理：
 ---
 解决方案：给Q和K向量额外增加维度来表示位置信息，有点ALiBi的意思
 ### Position encoding
->[参考文献](https://zhuanlan.zhihu.com/p/454482273)
+>1. [Positional Encoding（位置编码）](https://zhuanlan.zhihu.com/p/454482273)
+>2. [十分钟读懂旋转编码（RoPE）](https://zhuanlan.zhihu.com/p/647109286)
+>3. 
 
 理想的position encoding特点：
 1. 表示token在序列中的绝对位置
@@ -87,7 +89,7 @@ KV cache原理：
 ![image.png](https://raw.githubusercontent.com/yzh-2002/img-hosting/main/cs/202505112231844.png)
 旋转矩阵：$R(\theta)=\begin{bmatrix} cos(\theta) & sin(\theta)  \\ -sin(\theta)  & cos(\theta)  \end{bmatrix}$，含义：向量逆时针旋转$\theta$度
 旋转矩阵的性质：
-1. $R(\theta_1 \theta_2)=R(\theta_1 + \theta_2)$
+1. $R(\theta_1) R(\theta_2)=R(\theta_1 + \theta_2)$
 2. $R(\theta)^T=R(-\theta)$
 
 位置编码的使用：
