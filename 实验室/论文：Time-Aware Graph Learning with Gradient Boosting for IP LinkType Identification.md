@@ -119,3 +119,12 @@ f(x) = (x+a)(x+b)
 ```
 
 
+
+```latex
+\begin{document}
+\let\WriteBookmarks\relax % 禁用PDF书签的自动生成,通常与`hyperref`包相关（用于超链接和PDF属性）
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+\shorttitle{xxx} % 定义文档的简短标题，通常用于页眉或PDF元数据
+\shortauthors{xxx} % 定义文档的简短作者列表
+```
