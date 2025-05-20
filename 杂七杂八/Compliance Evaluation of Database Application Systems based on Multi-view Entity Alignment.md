@@ -1,5 +1,5 @@
-> 5.19日 6:00 前 论文整体内容过一遍
-> 5.19日 9:00 前 细读，理清楚模糊的点
+> 5.19日 18:00 前 论文整体内容过一遍
+> 5.20日 14:00 前 细读，理清楚模糊的点
 > 
 
 [论文代码](https://github.com/linjiebelfast/Compliance-Evaluation-of-Database-Application-Systems)
@@ -110,19 +110,40 @@ Translation-based Models
 
 不仅采用了 GCN-Align 模型来实现通用视图嵌入，还引入了layer-wise highway gates，以平衡从邻居节点传播的信息与跨层噪声传播之间的关系，从而优化节点表示。
 
-Q：什么是GCN-Align？什么是layer-wise highway gates？
-A：Graph Convolutional Network for Entity Alignment（GCN-Align）
+>Q：什么是GCN-Align？2018年的模型，[论文链接](https://arxiv.org/abs/1905.11605)
+   A：[[GNN]]
+   Q：什么是layer-wise highway gates？
+   A：包含两个组件：$H^{l+1}=T\cdot H\_transformed + C\cdot H^{l}$，类似于LSTM中的门控结构
+   1. Transform gate：控制有多少当前层的变换结果会被传递到下一层
+   2. Carry gate控制有多少原始输入信息会直接传递到下一层
+
+论文中<font color="#ff0000">邻接矩阵A的构造</font>需要关注下
+
 #### Specific-view Embedding
 
 **特定视图嵌入**的目的是区分不同类型的关系，通过考虑各种关系类型对实体的影响，为结构特征提供补充信息。
 
 受 TransEdge 模型启发，我们引入基于translation strategy的关系转换方法用于建模特定视图嵌入。
 
-Q：什么是translation strategy？如何建模？
+>Q：什么是TransEdge？（2019年）
+>A：TransE模型（2013年）的改进版本：
+>1. TransE为每个关系赋予固定的平移向量 r，TransEdge 将关系表示为头尾实体的交互函数，也即$r=f(h,t)$
+>2. TransE 严格约束 h+r=t，导致模型对复杂关系（如一对多、多对一）的建模能力不足，TransEdge 引入**软边界条件**，允许实体和关系在嵌入空间中以一定误差对齐，增强灵活性
+>3. TransE 仅建模单条关系，忽略知识图谱中多跳路径的语义，TransEdge 通过显式建模路径信息（如随机游走或注意力机制），增强关系的上下文感知能力。
+
+如何得到关系实体的嵌入表示？
+1. $w_{(h,t)}=\sigma([h:t]W_1+b_1)$，h，t是由common-view embedding阶段得到的头尾实体的emb
+2. $r_{single}=r-w_{(h,t)}^Trw_{(h,t)}$
+	1. $w_{(h,t)}^Trw_{(h,t)}$：将关系向量 r 投影到该上下文方向
+	2. 不想 `r` 过多地重复实体上下文中已经隐含的信息，让关系嵌入 `r_single` 更突出<font color="#ff0000">与实体组合互补的语义</font>，即 “补充信息”。
+3. $r_{all}=\sigma([\hat{H_{er}}:\hat{T_{er}}]W_2+b_2)$，$\hat{H_{er}}$表示与关系 r 相关的所有头实体的平均嵌入
+4. $r_{final}=r_{all}+r_{single}$
+
 
 为了同时结合特定视图和通用视图特征，并融合多关系类型信息，我们使用$L_T$（三元组损失）作为关系转换的目标函数，$L_A$（对齐损失）作为实体对齐的目标函数。最终目标函数是这两者的加权组合
 
----
+### Database Application System Compliance Evaluation
+
 某些字段可能仅出现在数据库应用系统或数据规范标准中，从而形成无法匹配的异常字段。这些异常字段缺乏语义信息，给相关人员理解其用途和功能带来了困难。
 本文将异常字段分为两类：新增字段（数据库应用系统）和废弃字段（数据规范标准）。
 
@@ -132,4 +153,8 @@ Q：什么是translation strategy？如何建模？
 在筛除异常字段之后，剩余字段将继续进行对齐处理。
 
 ## 实验
+略
+
+## Code
+
 
