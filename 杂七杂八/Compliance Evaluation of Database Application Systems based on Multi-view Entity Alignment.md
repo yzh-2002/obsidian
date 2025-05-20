@@ -115,7 +115,7 @@ Translation-based Models
    Q：什么是layer-wise highway gates？
    A：包含两个组件：$H^{l+1}=T\cdot H\_transformed + C\cdot H^{l}$，类似于LSTM中的门控结构
    1. Transform gate：控制有多少当前层的变换结果会被传递到下一层
-   2. Carry gate控制有多少原始输入信息会直接传递到下一层
+   2. Carry gate：控制有多少原始输入信息会直接传递到下一层
 
 论文中<font color="#ff0000">邻接矩阵A的构造</font>需要关注下
 
@@ -139,9 +139,7 @@ Translation-based Models
 3. $r_{all}=\sigma([\hat{H_{er}}:\hat{T_{er}}]W_2+b_2)$，$\hat{H_{er}}$表示与关系 r 相关的所有头实体的平均嵌入
 4. $r_{final}=r_{all}+r_{single}$
 
-
 为了同时结合特定视图和通用视图特征，并融合多关系类型信息，我们使用$L_T$（三元组损失）作为关系转换的目标函数，$L_A$（对齐损失）作为实体对齐的目标函数。最终目标函数是这两者的加权组合
-
 ### Database Application System Compliance Evaluation
 
 某些字段可能仅出现在数据库应用系统或数据规范标准中，从而形成无法匹配的异常字段。这些异常字段缺乏语义信息，给相关人员理解其用途和功能带来了困难。
