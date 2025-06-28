@@ -1,8 +1,6 @@
 
-[neurocomputing](https://www.sciencedirect.com/journal/neurocomputing/publish/guide-for-authors) 期刊，elsevier通用模版，全年随时可投递，无截稿日期
-
-中科院二区TOP期刊，CCF-C
-
+~~[neurocomputing](https://www.sciencedirect.com/journal/neurocomputing/publish/guide-for-authors) 期刊，elsevier通用模版，全年随时可投递，无截稿日期~~
+~~中科院二区TOP期刊，CCF-C~~
 
 写作格式：
 1. 单列格式（投稿单列，发表双列）
@@ -20,6 +18,9 @@
 8. 图片
 	1. 图片需要有标题+图片说明
 	2. 根据图像在文章中出现的顺序对其进行编号
+
+IEEE Communications Letters：
+
 
 ## 参考文献
 
