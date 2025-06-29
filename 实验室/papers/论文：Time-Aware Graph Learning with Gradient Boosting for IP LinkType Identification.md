@@ -21,6 +21,14 @@
 
 IEEE Communications Letters：
 
+TODO：
+1. 下载模板时文章类型区分“letters”和“original research and brief”，区别是什么？
+2. 摘要字数太多了，220words
+
+格式要求：[link](https://www.comsoc.org/publications/journals/ieee-comml/ieee-communications-letters-submit-manuscript)
+1. 篇幅不得超过 5 页（不超过 4 页的信函无需支付版面费，5页需要收取 220 美元的超长版面费）
+2. 摘要应为 75 至 100 字，清晰概述信函的研究范围和贡献。
+3. 
 
 ## 参考文献
 
